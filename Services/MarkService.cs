@@ -1,48 +1,42 @@
 using rentCar.Models;
-using System.Collections.Generic;
 using System.Linq;
 
-namespace ContosoMark.Services
+namespace  rentCar.Services
 {
-    public static class MarkService
+    public  class MarkService
     {
-        static List<Mark> Marks { get; }
-        static int nextId = 3;
-        static MarkService()
+         CarStuffContext db = new CarStuffContext();
+
+        public MarkService()
         {
-            Marks = new List<Mark>
-            {
-                new Mark { Id = 1, Description = "Red car", able = false },
-                new Mark { Id = 2, Description = "Blue car", able = true }
-            };
+            
         }
 
-        public static List<Mark> GetAll() => Marks;
-
-        public static Mark Get(int id) => Marks.FirstOrDefault(p => p.Id == id);
-
-        public static void Add(Mark Mark)
+        public  IQueryable<Mark> GetAll()
         {
-            Mark.Id = nextId++;
-            Marks.Add(Mark);
+            return db.Set<Mark>();
         }
 
-        public static void Delete(int id)
-        {
-            var Mark = Get(id);
-            if(Mark is null)
-                return;
-
-            Marks.Remove(Mark);
+        public  Mark Get(int id) 
+        { 
+            return  db.Marks.Find(id);
         }
 
-        public static void Update(Mark Mark)
+        public  void Add(Mark Mark)
         {
-            var index = Marks.FindIndex(p => p.Id == Mark.Id);
-            if(index == -1)
-                return;
+            db.Add(Mark);
+            db.SaveChanges();
+        }
 
-            Marks[index] = Mark;
+        public  void Delete(int id)
+        {
+            db.Remove(Get(id));
+            db.SaveChanges();
+        }
+
+        public  void Update(Mark Mark)
+        {
+           db.Update(Mark);
         }
     }
 }
