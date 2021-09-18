@@ -12,7 +12,7 @@ namespace rentCar.Models
         public DbSet<CarType> carTypes { get; set; }
         public DbSet<Model> models { get; set; }
         public DbSet<FuelType> fuelTypes { get; set; }
-        
+        public DbSet<Car> cars { get; set; }
 
         public string DbPath { get; private set; }
 
