@@ -22,12 +22,59 @@ namespace rentCar.Controllers
     public IQueryable<Mark>  GetAll() =>
     markService.GetAll();
 
-        // GET by Id action
+    
+    // GET by Id action
+    [HttpGet("{id}")]
+    public ActionResult<Mark> Get(int id)
+    {
+        var mark = markService.Get(id);
 
-        // POST action
+        if(mark == null)
+            return NotFound();
 
-        // PUT action
+        return mark;
+    }
 
-        // DELETE action
+    
+    // POST action
+    [HttpPost]
+    public IActionResult Create(Mark mark)
+    {            
+        markService.Add(mark);
+        return CreatedAtAction(nameof(Create), new { id = mark.Id }, mark);
+    }
+
+    
+    // PUT action
+    [HttpPut("{id}")]
+    public IActionResult Update(int id, Mark mark)
+    {
+        if (id != mark.Id)
+            return BadRequest();
+
+        var existingMark = markService.Get(id);
+        if(existingMark is null)
+            return NotFound();
+
+        
+        markService.Update(mark);           
+
+        return NoContent();
+    }
+    
+    // DELETE action
+    [HttpDelete("{id}")]
+    public IActionResult Delete(int id)
+    {
+        var mark = markService.Get(id);
+
+        if (mark is null)
+            return NotFound();
+
+        markService.Delete(id);
+
+        return NoContent();
+    }
+
     }
 }
