@@ -15,6 +15,10 @@ namespace rentCar.Models
         public DbSet<Car> cars { get; set; }
         public DbSet<Client> clients { get; set; }
 
+        public DbSet<Inspection> inspections { get; set; }
+        public DbSet<Rent> rents { get; set; }
+        public DbSet<Employee> employees { get; set; }
+
         public string DbPath { get; private set; }
 
         public CarStuffContext()
