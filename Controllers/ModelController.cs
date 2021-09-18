@@ -22,12 +22,58 @@ namespace rentCar.Controllers
     public IQueryable<Model>  GetAll() =>
     modelService.GetAll();
 
-        // GET by Id action
+       // GET by Id action
+    [HttpGet("{id}")]
+    public ActionResult<Model> Get(int id)
+    {
+        var model = modelService.Get(id);
 
-        // POST action
+        if(model == null)
+            return NotFound();
 
-        // PUT action
+        return model;
+    }
 
-        // DELETE action
+    
+    // POST action
+    [HttpPost]
+    public IActionResult Create(Model model)
+    {            
+        modelService.Add(model);
+        return CreatedAtAction(nameof(Create), new { id = model.Id }, model);
+    }
+
+    
+    // PUT action
+    [HttpPut("{id}")]
+    public IActionResult Update(int id, Model model)
+    {
+        if (id != model.Id)
+            return BadRequest();
+
+        var existingModel = modelService.Get(id);
+        if(existingModel is null)
+            return NotFound();
+
+        
+        modelService.Update(model);           
+
+        return NoContent();
+    }
+    
+    // DELETE action
+    [HttpDelete("{id}")]
+    public IActionResult Delete(int id)
+    {
+        var model = modelService.Get(id);
+
+        if (model is null)
+            return NotFound();
+
+        modelService.Delete(id);
+
+        return NoContent();
+    }
+    
     }
 }

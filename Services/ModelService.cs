@@ -1,5 +1,6 @@
 using rentCar.Models;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace  rentCar.Services
 {
@@ -36,7 +37,9 @@ namespace  rentCar.Services
 
         public  void Update(Model Model)
         {
+           db.Entry(Model).State = EntityState.Deleted;
            db.Update(Model);
+           db.SaveChanges();
         }
     }
 }
