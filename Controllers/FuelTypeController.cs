@@ -23,11 +23,57 @@ namespace rentCar.Controllers
     fuelService.GetAll();
 
         // GET by Id action
+    [HttpGet("{id}")]
+    public ActionResult<FuelType> Get(int id)
+    {
+        var fuelType = fuelService.Get(id);
 
-        // POST action
+        if(fuelType == null)
+            return NotFound();
 
-        // PUT action
+        return fuelType;
+    }
 
-        // DELETE action
+    
+    // POST action
+    [HttpPost]
+    public IActionResult Create(FuelType fuelType)
+    {            
+        fuelService.Add(fuelType);
+        return CreatedAtAction(nameof(Create), new { id = fuelType.Id }, fuelType);
+    }
+
+    
+    // PUT action
+    [HttpPut("{id}")]
+    public IActionResult Update(int id, FuelType fuelType)
+    {
+        if (id != fuelType.Id)
+            return BadRequest();
+
+        var existingFuelType = fuelService.Get(id);
+        if(existingFuelType is null)
+            return NotFound();
+
+        
+        fuelService.Update(fuelType);           
+
+        return NoContent();
+    }
+    
+    // DELETE action
+    [HttpDelete("{id}")]
+    public IActionResult Delete(int id)
+    {
+        var fuelType = fuelService.Get(id);
+
+        if (fuelType is null)
+            return NotFound();
+
+        fuelService.Delete(id);
+
+        return NoContent();
+    }
+    
     }
 }
