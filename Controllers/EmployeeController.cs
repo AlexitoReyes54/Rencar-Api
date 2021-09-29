@@ -19,8 +19,11 @@ namespace rentCar.Controllers
     
     // GET all action
     [HttpGet]
-    public IQueryable<Employee>  GetAll() =>
-    employeeService.GetAll();
+    public IQueryable<Employee>  GetAll(){
+        Response.Headers.Add("X-reponse-from-controller", "test123");
+         return employeeService.GetAll();
+    }
+    
 
     
     // GET by Id action
